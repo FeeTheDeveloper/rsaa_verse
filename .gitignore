@@ -32,3 +32,28 @@ revdep
 .Rproj.user
 # build files
 build/
+
+# RSAA Verse data products
+warehouse/*.duckdb
+warehouse/*.db
+warehouse/*.sqlite
+
+data/nfl/raw/**/
+!data/nfl/raw/**/
+
+# Large historical parquet artifacts
+*.parquet
+!data/nfl/raw/pbp/season=2025/play_by_play_2025.parquet
+
+# Python caches
+__pycache__/
+*.pyc
+
+# Local manifests and reports may be kept, but not giant generated datasets
+reports/**/*.csv
+reports/**/*.parquet
+exports/**/*.parquet
+
+# VS Code / local
+.vscode/
+.DS_Store

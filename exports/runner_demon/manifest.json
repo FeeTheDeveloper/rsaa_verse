@@ -1,0 +1,48 @@
+{
+  "artifacts": [
+    {
+      "path": "team_profiles.parquet",
+      "rows": 32,
+      "sha256": "6fc336f12b46cfa47a5d7a2a7d2a4a5c4fe2378c5eb5d31db7a5cd9760bdcca6"
+    },
+    {
+      "path": "game_baselines.parquet",
+      "rows": 285,
+      "sha256": "932859fcef0f85d014b50a792685bac2f002edf2f96f0842c7be3757819d83af"
+    },
+    {
+      "path": "drive_baselines.parquet",
+      "rows": 6045,
+      "sha256": "ab6690f5361c5c4afec763ae065207eee0a3d951960d2003342920cfb1db95a7"
+    },
+    {
+      "path": "period_baselines.parquet",
+      "rows": 2312,
+      "sha256": "7e3cf458269a45ba7346c4eb2863d32b2653fe2d59b2269b5d3b2b643766e54a"
+    },
+    {
+      "path": "game_state_baselines.parquet",
+      "rows": 48767,
+      "sha256": "0ec6ff6785fd5f6b92b95d7119d6e7ebb42954cd49dee9196eb5b09ca5c36c01"
+    },
+    {
+      "path": "market_history.parquet",
+      "rows": 285,
+      "sha256": "932859fcef0f85d014b50a792685bac2f002edf2f96f0842c7be3757819d83af"
+    }
+  ],
+  "feature_version": "runner_nfl_history.v1",
+  "generated_at": "2026-09-13T14:22:14.554575+00:00",
+  "producer_version": "rsaa_verse.runner-export.v1",
+  "schema_version": "runner.verse-export.v1",
+  "seasons": [
+    2025
+  ],
+  "sources": [
+    "nflverse_pbp"
+  ],
+  "validation": {
+    "report": "DuckDB normalized games, plays, drives, periods, and state samples validated.",
+    "status": "passed"
+  }
+}
