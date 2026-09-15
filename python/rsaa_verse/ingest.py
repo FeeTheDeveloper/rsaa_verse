@@ -76,8 +76,12 @@ def manifest_record(
 
 
 def ensure_warehouse() -> None:
+    # NOTE: do not pre-create WAREHOUSE_PATH with .touch() here -- duckdb.connect()
+    # refuses to open an existing-but-empty file ("not a valid DuckDB database
+    # file"), so touching it first breaks first-run ingestion into a warehouse
+    # path that doesn't exist yet. duckdb.connect() creates the file itself when
+    # the path is absent, so only the parent directory needs to exist.
     WAREHOUSE_PATH.parent.mkdir(parents=True, exist_ok=True)
-    WAREHOUSE_PATH.touch(exist_ok=True)
 
 
 def ingest_nfl_pbp_season(season: int = 2025) -> dict[str, Any]:

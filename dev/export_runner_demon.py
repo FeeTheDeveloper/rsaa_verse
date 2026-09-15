@@ -19,14 +19,13 @@ def sha256(path: Path) -> str:
     return digest.hexdigest()
 
 
-def main() -> int:
-    parser = argparse.ArgumentParser()
-    parser.add_argument("--warehouse", default="warehouse/runner_nfl_history.duckdb")
-    parser.add_argument("--output", default="exports/runner_demon")
-    parser.add_argument("--season", type=int, default=2025)
-    args = parser.parse_args()
-    warehouse = Path(args.warehouse)
-    output = Path(args.output)
+def export_demon(warehouse: Path, output: Path, season: int) -> dict[str, object]:
+    """Export curated normalized/features/research warehouse tables to Demon-consumable parquet files.
+
+    Extracted from the original argparse-only main() so it can be called directly
+    (e.g. from rsaa_verse.cli's export-demon command) as well as from the CLI entry
+    point below. Behavior and queries are unchanged from the original script.
+    """
     output.mkdir(parents=True, exist_ok=True)
     connection = duckdb.connect(str(warehouse), read_only=True)
     definitions = {
@@ -48,13 +47,23 @@ def main() -> int:
         "schema_version": "runner.verse-export.v1",
         "feature_version": "runner_nfl_history.v1",
         "generated_at": datetime.now(timezone.utc).isoformat(),
-        "seasons": [args.season],
+        "seasons": [season],
         "sources": ["nflverse_pbp"],
         "artifacts": artifacts,
         "validation": {"status": "passed" if validation == "passed" else "failed", "report": "DuckDB normalized games, plays, drives, periods, and state samples validated."},
         "producer_version": "rsaa_verse.runner-export.v1",
     }
     (output / "manifest.json").write_text(json.dumps(manifest, indent=2, sort_keys=True), encoding="utf-8")
+    return manifest
+
+
+def main() -> int:
+    parser = argparse.ArgumentParser()
+    parser.add_argument("--warehouse", default="warehouse/runner_nfl_history.duckdb")
+    parser.add_argument("--output", default="exports/runner_demon")
+    parser.add_argument("--season", type=int, default=2025)
+    args = parser.parse_args()
+    manifest = export_demon(Path(args.warehouse), Path(args.output), args.season)
     print(json.dumps(manifest, sort_keys=True))
     return 0 if manifest["validation"]["status"] == "passed" else 1
 

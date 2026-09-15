@@ -1,0 +1,15 @@
+# Runtime + test dependencies for the rsaa_verse Python layer (python/rsaa_verse, dev/*.py, tests/).
+# Determined by reading imports across cli.py, config.py, ingest.py,
+# dev/build_runner_nfl_history.py, dev/export_runner_demon.py, and tests/test_2025_pipeline.py.
+#
+# Runtime
+click==8.5.0
+duckdb==1.5.5
+pyarrow==25.0.1
+
+# Test
+pytest==9.1.1
+colorama==0.4.6
+iniconfig==2.3.0
+pluggy==1.6.0
+pygments==2.21.0
